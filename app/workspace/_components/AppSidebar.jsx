@@ -23,6 +23,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import AddNewCourseDialog from './AddNewCourseDialog'
 
 const SIdebarOptions = [
 	{
@@ -68,7 +69,9 @@ const AppSidebar = () => {
 			</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup>
-					<Button>Create New Course</Button>
+					<AddNewCourseDialog>
+						<Button>Create New Course</Button>
+					</AddNewCourseDialog>
 				</SidebarGroup>
 				<SidebarGroup>
 					<SidebarGroupContent>
