@@ -64,7 +64,7 @@ const AppSidebar = () => {
 		<Sidebar>
 			<SidebarHeader className='p-4 flex-row'>
 				<Image src='/logo.svg' alt='logo' width={130} height={120} />
-				<h1 className='text-3xl font-bold absolute left-[60px]'> UpSkilla</h1>
+				<h1 className='text-2xl font-bold absolute left-[60px]'> UpSkilla</h1>
 			</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup>
