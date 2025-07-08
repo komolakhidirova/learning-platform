@@ -19,18 +19,23 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { Sparkle } from 'lucide-react'
+import axios from 'axios'
+import { Loader2Icon, Sparkle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 const AddNewCourseDialog = ({ children }) => {
+	const [loading, setLoading] = useState(false)
 	const [formData, setFormData] = useState({
 		name: '',
 		description: '',
 		includeVideo: false,
-		noOfChapter: 1,
+		noOfChapters: 1,
 		level: '',
 		category: '',
 	})
+	const router = useRouter()
 
 	const onHandleInputChange = (field, value) => {
 		setFormData(prev => ({
@@ -39,8 +44,21 @@ const AddNewCourseDialog = ({ children }) => {
 		}))
 	}
 
-	const onGenerate = () => {
-		console.log(formData)
+	const onGenerate = async () => {
+		const courseId = uuidv4()
+		try {
+			setLoading(true)
+			const result = await axios.post('/api/generate-course-layout', {
+				...formData,
+				courseId: courseId,
+			})
+			console.log(result.data)
+			setLoading(false)
+			router.push('/workspace/edit-course/' + result.data?.courseId)
+		} catch (e) {
+			setLoading(false)
+			console.log(e)
+		}
 	}
 
 	return (
@@ -75,7 +93,7 @@ const AddNewCourseDialog = ({ children }) => {
 									placeholder='Number of Chapters'
 									type='number'
 									onChange={event =>
-										onHandleInputChange('noOfChapter', event?.target.value)
+										onHandleInputChange('noOfChapters', event?.target.value)
 									}
 								/>
 							</div>
@@ -112,8 +130,16 @@ const AddNewCourseDialog = ({ children }) => {
 								/>
 							</div>
 							<div className='mt-5'>
-								<Button className='w-full' onClick={onGenerate}>
-									<Sparkle />
+								<Button
+									className='w-full'
+									onClick={onGenerate}
+									disabled={loading}
+								>
+									{loading ? (
+										<Loader2Icon className='animate-spin' />
+									) : (
+										<Sparkle />
+									)}
 									Generate Course
 								</Button>
 							</div>
