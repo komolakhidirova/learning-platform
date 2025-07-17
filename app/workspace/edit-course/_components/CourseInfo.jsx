@@ -1,12 +1,16 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { Book, Clock, Loader2Icon, Settings, TrendingUp } from 'lucide-react'
-import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const CourseInfo = ({ course }) => {
 	const courseLayout = course?.courseJson?.course
 	const [loading, setLoading] = useState(false)
+	const router = useRouter()
 
 	const GenerateCourseContent = async () => {
 		try {
@@ -18,9 +22,12 @@ const CourseInfo = ({ course }) => {
 			})
 			console.log(result.data)
 			setLoading(false)
+			router.replace('/workspace')
 		} catch (e) {
 			console.log(e)
 			setLoading(false)
+			toast.error('Server Side Error, Try Again!')
+			toast.success('Course Generated Successfully!')
 		}
 		return
 	}
@@ -60,13 +67,13 @@ const CourseInfo = ({ course }) => {
 					Generate Content
 				</Button>
 			</div>
-			<Image
+			{/* <Image
 				src={course?.bannerImageUrl}
 				alt='banner Image'
 				width={400}
 				height={400}
 				className='w-full mt-5 lg:mt-0 h-[240px] rounded-2xl object-cover aspect-auto'
-			/>
+			/> */}
 		</div>
 	)
 }
