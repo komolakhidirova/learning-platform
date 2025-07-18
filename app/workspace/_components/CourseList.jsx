@@ -1,12 +1,26 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { useUser } from '@clerk/nextjs'
+import axios from 'axios'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddNewCourseDialog from './AddNewCourseDialog'
+import CourseCard from './CourseCard'
 
 const CourseList = () => {
 	const [courseList, setCourseList] = useState([])
+	const { user } = useUser()
+
+	useEffect(() => {
+		user && GetCourseList()
+	}, [user])
+
+	const GetCourseList = async () => {
+		const result = await axios.get('/api/courses')
+		console.log(result.data)
+		setCourseList(result.data)
+	}
 
 	return (
 		<div className='mt-10'>
@@ -28,7 +42,11 @@ const CourseList = () => {
 					</AddNewCourseDialog>
 				</div>
 			) : (
-				<div>List of Courses</div>
+				<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
+					{courseList.map((course, i) => (
+						<CourseCard course={course} key={i} />
+					))}
+				</div>
 			)}
 		</div>
 	)
