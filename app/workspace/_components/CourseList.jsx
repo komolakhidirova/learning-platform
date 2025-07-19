@@ -18,13 +18,13 @@ const CourseList = () => {
 
 	const GetCourseList = async () => {
 		const result = await axios.get('/api/courses')
-		console.log(result.data)
+		// console.log(result.data)
 		setCourseList(result.data)
 	}
 
 	return (
 		<div className='mt-10'>
-			<h2 className='font-bold text-3xl'>Course List</h2>
+			<h2 className='font-bold text-xl'>Course List</h2>
 
 			{courseList.length == 0 ? (
 				<div className='flex p-7 items-center justify-center flex-col border rounded-xl mt-2 bg-secondary'>
@@ -42,7 +42,7 @@ const CourseList = () => {
 					</AddNewCourseDialog>
 				</div>
 			) : (
-				<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
+				<div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-3'>
 					{courseList.map((course, i) => (
 						<CourseCard course={course} key={i} />
 					))}
