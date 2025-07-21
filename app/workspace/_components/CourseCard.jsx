@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { Book, LoaderCircle, PlayCircle, Settings } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -31,13 +30,13 @@ const CourseCard = ({ course }) => {
 	}
 	return (
 		<div className='shadow rounded-xl'>
-			<Image
+			{/* <Image
 				src={course?.bannerImageUrl}
 				alt={course?.name}
 				width={400}
 				height={300}
 				className='w-full aspect-video rounded-t-xl object-cover'
-			/>
+			/> */}
 			<div className='p-3 flex flex-col gap-3'>
 				<h2 className='font-bold text-lg'>{courseJson?.name}</h2>
 				<p className='line-clamp-2 text-gray-400 text-sm'>

@@ -31,7 +31,10 @@ const Course = () => {
 			<AppHeader hideSidebar={true} />
 			<div className='flex gap-5'>
 				<ChapterListSidebar courseInfo={courseInfo} />
-				<ChapterContent courseInfo={courseInfo} />
+				<ChapterContent
+					courseInfo={courseInfo}
+					refreshData={() => GetEnrolledCourseById()}
+				/>
 			</div>
 		</div>
 	)
