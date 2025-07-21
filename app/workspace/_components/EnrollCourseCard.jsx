@@ -32,7 +32,7 @@ const EnrollCourseCard = ({ course, enrollCourse }) => {
 						Progress<span>{CalculatePerProgress()}%</span>
 					</h2>
 					<Progress value={CalculatePerProgress()} />
-					<Link href={'/workspace/courses/' + course?.cid}>
+					<Link href={'/workspace/view-course/' + course?.cid}>
 						<Button className='w-full mt-3'>
 							<PlayCircle />
 							Continue Learning

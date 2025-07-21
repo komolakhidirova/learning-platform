@@ -2,12 +2,20 @@
 
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
-import { Book, Clock, Loader2Icon, Settings, TrendingUp } from 'lucide-react'
+import {
+	Book,
+	Clock,
+	Loader2Icon,
+	PlayCircle,
+	Settings,
+	TrendingUp,
+} from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const CourseInfo = ({ course }) => {
+const CourseInfo = ({ course, viewCourse }) => {
 	const courseLayout = course?.courseJson?.course
 	const [loading, setLoading] = useState(false)
 	const router = useRouter()
@@ -62,10 +70,19 @@ const CourseInfo = ({ course }) => {
 						</section>
 					</div>
 				</div>
-				<Button className='max-w-sm' onClick={GenerateCourseContent}>
-					{loading ? <Loader2Icon className='animate-spin' /> : <Settings />}
-					Generate Content
-				</Button>
+				{!viewCourse ? (
+					<Button className='max-w-sm' onClick={GenerateCourseContent}>
+						{loading ? <Loader2Icon className='animate-spin' /> : <Settings />}
+						Generate Content
+					</Button>
+				) : (
+					<Link href={'/course/' + course?.cid}>
+						<Button>
+							<PlayCircle />
+							Continue Learning
+						</Button>
+					</Link>
+				)}
 			</div>
 			{/* <Image
 				src={course?.bannerImageUrl}

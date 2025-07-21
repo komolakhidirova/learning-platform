@@ -35,14 +35,36 @@ export async function POST(req) {
 
 export async function GET(req) {
 	const user = await currentUser()
-	const result = await db
-		.select()
-		.from(coursesTable)
-		.innerJoin(enrollCourseTable, eq(coursesTable.cid, enrollCourseTable.cid))
-		.where(
-			eq(enrollCourseTable.userEmail, user?.primaryEmailAddress?.emailAddress)
-		)
-		.orderBy(desc(enrollCourseTable.id))
+	const { searchParams } = new URL(req.url)
+	const courseId = searchParams?.get('courseId')
 
-	return NextResponse.json(result)
+	if (courseId) {
+		const result = await db
+			.select()
+			.from(coursesTable)
+			.innerJoin(enrollCourseTable, eq(coursesTable.cid, enrollCourseTable.cid))
+			.where(
+				and(
+					eq(
+						enrollCourseTable.userEmail,
+						user?.primaryEmailAddress?.emailAddress
+					),
+					eq(enrollCourseTable.cid, courseId)
+				)
+			)
+			.orderBy(desc(enrollCourseTable.id))
+
+		return NextResponse.json(result[0])
+	} else {
+		const result = await db
+			.select()
+			.from(coursesTable)
+			.innerJoin(enrollCourseTable, eq(coursesTable.cid, enrollCourseTable.cid))
+			.where(
+				eq(enrollCourseTable.userEmail, user?.primaryEmailAddress?.emailAddress)
+			)
+			.orderBy(desc(enrollCourseTable.id))
+
+		return NextResponse.json(result)
+	}
 }

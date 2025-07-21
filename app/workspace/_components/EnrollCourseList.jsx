@@ -15,7 +15,7 @@ const EnrollCourseList = () => {
 	const GetEnrolledCourse = async () => {
 		try {
 			const result = await axios.get('/api/enroll-course')
-			console.log('enroll list' + result.data)
+			// console.log('enroll list' + result.data)
 			setEnrollCourseList(result.data)
 		} catch (e) {
 			toast.error('Server side error')

@@ -4,8 +4,8 @@ const ChapterTopicList = ({ course }) => {
 	const courseLayout = course?.courseJson?.course
 
 	return (
-		<div className='font-bold text-3xl mt-10'>
-			<h2>Chapters & Topics </h2>
+		<div>
+			<h2 className='font-bold text-3xl mt-10'>Chapters & Topics </h2>
 			<div className='flex flex-col items-center justify-center mt-10'>
 				{courseLayout?.chapters.map((chapter, i) => (
 					<div key={i} className='flex flex-col items-center'>
@@ -37,7 +37,7 @@ const ChapterTopicList = ({ course }) => {
 									<div className='h-10 bg-gray-300 w-1'></div>
 								)}
 								{i == chapter?.topics?.length - 1 && (
-									<div className='text-center rounded-full bg-gray-300 p-6'>
+									<div className='text-center rounded-full bg-gray-300 p-4.5'>
 										<Gift />
 									</div>
 								)}

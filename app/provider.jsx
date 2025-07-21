@@ -1,5 +1,6 @@
 'use client'
 
+import { SelectedChapterIndexContext } from '@/context/selectedChapterIndexContext'
 import { UserDetailContext } from '@/context/userDetailContext'
 import { useUser } from '@clerk/nextjs'
 import axios from 'axios'
@@ -8,6 +9,7 @@ import { useEffect, useState } from 'react'
 const Provider = ({ children }) => {
 	const { user } = useUser()
 	const [userDetail, setUserDetail] = useState()
+	const [selectedChapterIndex, setSelectedChapterIndex] = useState(0)
 
 	useEffect(() => {
 		user && CreateNewUser()
@@ -22,7 +24,11 @@ const Provider = ({ children }) => {
 	}
 	return (
 		<UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
-			<div>{children}</div>
+			<SelectedChapterIndexContext.Provider
+				value={{ selectedChapterIndex, setSelectedChapterIndex }}
+			>
+				<div>{children}</div>
+			</SelectedChapterIndexContext.Provider>
 		</UserDetailContext.Provider>
 	)
 }
