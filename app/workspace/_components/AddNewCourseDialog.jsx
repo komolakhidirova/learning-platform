@@ -23,6 +23,7 @@ import axios from 'axios'
 import { Loader2Icon, Sparkle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
 
 const AddNewCourseDialog = ({ children }) => {
@@ -53,6 +54,10 @@ const AddNewCourseDialog = ({ children }) => {
 				courseId: courseId,
 			})
 			console.log(result.data)
+			if (result.data.resp == 'limit exceed') {
+				toast.warning('Please Subscribe to Plan!')
+				router.push('/workspace/billing')
+			}
 			setLoading(false)
 			router.push('/workspace/edit-course/' + result.data?.courseId)
 		} catch (e) {

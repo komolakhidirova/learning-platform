@@ -1,7 +1,8 @@
 import { db } from '@/config/bd'
 import { coursesTable } from '@/config/schema'
-import { currentUser } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { GoogleGenAI } from '@google/genai'
+import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 const PROMPT = `Generate Learning Course depends on following details. In whink Make sure to add Course Name, Description, Chapter Name, Image Prompt (Create a modern, flat-style 2D digital illustration representing user Topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to user Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3d format, Topic under each chapters, Duration for each chapters etc, in JSON format only Schema:
@@ -32,6 +33,8 @@ export const ai = new GoogleGenAI({
 export async function POST(req) {
 	const { courseId, ...formData } = await req.json()
 	const user = await currentUser()
+	const { has } = await auth()
+	const hasPremiumAccess = has({ plan: 'starter' })
 
 	const config = {
 		responseMimeType: 'text/plain',
@@ -47,6 +50,19 @@ export async function POST(req) {
 			],
 		},
 	]
+
+	if (!hasPremiumAccess) {
+		const result = await db
+			.select()
+			.from(coursesTable)
+			.where(
+				eq(coursesTable.userEmail, user?.primaryEmailAddress?.emailAddress)
+			)
+
+		if (result?.length >= 1) {
+			return NextResponse.json({ resp: 'limit exceed' })
+		}
+	}
 
 	const response = await ai.models.generateContent({
 		model,
