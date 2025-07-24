@@ -35,7 +35,7 @@ const CourseInfo = ({ course, viewCourse }) => {
 			console.log(e)
 			setLoading(false)
 			toast.error('Server Side Error, Try Again!')
-			toast.success('Course Generated Successfully!')
+			// toast.success('Course Generated Successfully!')
 		}
 		return
 	}

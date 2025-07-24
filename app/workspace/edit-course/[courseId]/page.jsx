@@ -25,7 +25,7 @@ const EditCourse = ({ viewCourse = false }) => {
 	return (
 		<div>
 			<CourseInfo course={course} viewCourse={viewCourse} />
-			<ChapterTopicList course={course} />
+			<ChapterTopicList courseId={courseId} />
 		</div>
 	)
 }
