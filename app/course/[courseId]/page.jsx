@@ -1,6 +1,7 @@
 'use client'
 
 import AppHeader from '@/app/workspace/_components/AppHeader'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -27,16 +28,18 @@ const Course = () => {
 	}
 
 	return (
-		<div>
-			<AppHeader hideSidebar={true} />
-			<div className='flex gap-5'>
-				<ChapterListSidebar courseInfo={courseInfo} />
-				<ChapterContent
-					courseInfo={courseInfo}
-					refreshData={() => GetEnrolledCourseById()}
-				/>
+		<SidebarProvider>
+			<ChapterListSidebar courseInfo={courseInfo} />
+			<div className='w-full'>
+				<AppHeader />
+				<div className='p-10 '>
+					<ChapterContent
+						courseInfo={courseInfo}
+						refreshData={() => GetEnrolledCourseById()}
+					/>
+				</div>
 			</div>
-		</div>
+		</SidebarProvider>
 	)
 }
 

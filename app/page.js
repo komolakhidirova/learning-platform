@@ -12,7 +12,7 @@ export default function Home() {
 			<Link href='/workspace'>
 				<Button style={{ backgroundColor: 'white', color: '#905ec3' }}>
 					<PlayCircle />
-					Get Started
+					Dashboard
 				</Button>
 			</Link>
 		</div>

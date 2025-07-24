@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { SelectedChapterIndexContext } from '@/context/selectedChapterIndexContext'
 import axios from 'axios'
 import { CheckCircle, Loader2Icon, X } from 'lucide-react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useContext, useState } from 'react'
 import YouTube from 'react-youtube'
 import { toast } from 'sonner'
@@ -21,6 +21,7 @@ const ChapterContent = ({ courseInfo, refreshData }) => {
 	const topics = courseContent?.[selectedChapterIndex]?.courseData?.topics
 	let completedChapter = enrollCourse?.completedChapters ?? []
 	const [loading, setLoading] = useState(false)
+	const router = useRouter()
 
 	const markChapterCompleted = async () => {
 		try {
@@ -31,11 +32,11 @@ const ChapterContent = ({ courseInfo, refreshData }) => {
 				courseId: courseId,
 				completedChapter: completedChapter,
 			})
-
-			console.log(result.data)
+			// console.log(result.data)
 			refreshData()
 			toast.success('Chapter Marked Completed!')
 			setLoading(false)
+			// window.location.reload()
 		} catch (e) {
 			toast.error('Server Side Error')
 			setLoading(false)
@@ -48,16 +49,15 @@ const ChapterContent = ({ courseInfo, refreshData }) => {
 			const completedChap = completedChapter.filter(
 				i => i != selectedChapterIndex
 			)
-
 			const result = await axios.put('/api/enroll-course', {
 				courseId: courseId,
 				completedChapter: completedChap,
 			})
-
-			console.log(result.data)
+			// console.log(result.data)
 			refreshData()
 			toast.success('Chapter Marked InCompleted!')
 			setLoading(false)
+			// window.location.reload()
 		} catch (e) {
 			toast.error('Server Side Error')
 			setLoading(false)
@@ -65,7 +65,7 @@ const ChapterContent = ({ courseInfo, refreshData }) => {
 	}
 
 	return (
-		<div className='p-10'>
+		<div>
 			<div className='flex justify-between items-center'>
 				<h2 className='font-bold text-2xl'>
 					{selectedChapterIndex + 1}.{' '}
@@ -92,7 +92,7 @@ const ChapterContent = ({ courseInfo, refreshData }) => {
 				)}
 			</div>
 			<h2 className='my-2 font-bold text-lg'>Related Videos</h2>
-			<div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+			<div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
 				{videoData?.map(
 					(video, i) =>
 						i < 2 && (
@@ -113,8 +113,12 @@ const ChapterContent = ({ courseInfo, refreshData }) => {
 						</h2>
 						<div
 							dangerouslySetInnerHTML={{ __html: topic?.content }}
+							className='[&_pre]:max-w-full [&_pre]:overflow-x-auto [&_pre]:whitespace-pre [&_pre]:bg-gray-600 [&_pre]:text-white [&_pre]:p-3 [&_pre]:rounded'
 							style={{
 								lineHeight: 2.5,
+								wordBreak: 'break-word',
+								overflowWrap: 'anywhere', // Самый агрессивный перенос
+								hyphens: 'auto', // Перенос слов с дефисами
 							}}
 						></div>
 					</div>
