@@ -16,7 +16,6 @@ import {
 	Book,
 	Compass,
 	LayoutDashboard,
-	PencilRulerIcon,
 	UserCircle2Icon,
 	WalletCards,
 } from 'lucide-react'
@@ -41,11 +40,11 @@ const SIdebarOptions = [
 		icon: Compass,
 		path: '/workspace/explore',
 	},
-	{
-		title: 'AI Tools',
-		icon: PencilRulerIcon,
-		path: '/workspace/ai-tools',
-	},
+	// {
+	// 	title: 'AI Tools',
+	// 	icon: PencilRulerIcon,
+	// 	path: '/workspace/ai-tools',
+	// },
 	{
 		title: 'Billing',
 		icon: WalletCards,
