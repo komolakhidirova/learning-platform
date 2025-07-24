@@ -34,7 +34,7 @@ export async function POST(req) {
 	const { courseId, ...formData } = await req.json()
 	const user = await currentUser()
 	const { has } = await auth()
-	const hasPremiumAccess = has({ plan: 'starter' })
+	const hasPremiumAccess = has({ plan: 'free_user' })
 
 	const config = {
 		responseMimeType: 'text/plain',
